@@ -10,6 +10,42 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int @id @default(autoincrement())
+  email            String @unique
+  password         String
+  role             Role @default(ANALISTA)
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updateAt @map("updated_at")
+
+  @@map("users")
+}
+
+enum Role { 
+  ANALISTA
+  ADMIN
+}
+
+model Agency {
+  id                Int @id @default(autoincrement())
+  Name              String @map("business_name")
+  cnpj              String @unique
+  stateRegistration String @map("state_registration")
+  status            StatusAgency
+  foundingDate      DateTime @map("founding_date")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updateAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("agencies")
+}
+
+enum StatusAgency {
+  PENDENTE         //Recém cadastrada
+  ARPOVADO         //Liberada para operar
+  REPROVADO        //Não aprovada
+  SUSPENSO         
 }
