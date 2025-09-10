@@ -42,6 +42,13 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
 
         return next()
     } catch (err){
-        
+        console.error("Erro no authMiddleware:", err);
+
+        // Verifica se é erro de JWT
+        if (err instanceof jwt.JsonWebTokenError ) {
+            return res.status(401).json({ message: "Invalid token" });
+        }
+
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 }

@@ -20,6 +20,7 @@ router.post("/register", async (req, res) => {
         const token = generateToken(user.id, user.role);
         res.json({ user: { id: user.id, name: user.name, email: user.email }, token });
     } catch (err) {
+        console.log("Erro no /register:", err)
         res.status(500).json({ error: "Erro ao registrar usuário" });
     }
 })
