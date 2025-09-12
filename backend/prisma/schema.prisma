@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Agency {
+  id                Int          @id @default(autoincrement())
+  Name              String       @map("business_name")
+  cnpj              String       @unique
+  stateRegistration String       @map("state_registration")
+  status            StatusAgency
+  foundingDate      DateTime     @map("founding_date")
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updateAt          DateTime     @updatedAt @map("updated_at")
+
+  @@map("agencies")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum StatusAgency {
+  PENDENTE
+  ARPOVADO
+  REPROVADO
+  SUSPENSO
+}
