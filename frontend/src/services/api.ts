@@ -1,31 +1,15 @@
-import axios from 'axios';
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
-})
+  baseURL: "http://localhost:3000/api",
+});
 
-export interface User {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-}
+export const login = (email: string, password: string) => {
+  return api.post<{ token: string }>("/auth/login", { email, password });
+};
 
-export interface Agency {
-    id?: number;
-    Name: string;
-    cnpj: string;
-    stateRegistration: string;
-    status: string;
-    foundingDate: string;
-}
-
-export const login = (email: string, password: string) => 
-    api.post<{token: string}>("/auth/login", { email, password});
-
-export const register = (data: User) =>
-    api.post("/auth/register", data);
-
-export const getAgencies = () => api.get<Agency[]>("/agencies")
+export const register = (name: string, email: string, password: string) => {
+  return api.post<{ token: string }>("/auth/register", { name, email, password });
+};
 
 export default api;
