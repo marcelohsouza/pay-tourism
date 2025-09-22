@@ -21,8 +21,8 @@ const LoginForm = () => {
       // Salva no localStorage
       localStorage.setItem("token", token);
 
-      // Redireciona para a home
-      navigate("/home");
+      // Redireciona para o dashboard
+      navigate("/dashboard");
     } catch (err) {
       console.error("Erro no login:", err);
       setError("Credenciais inválidas, tente novamente.");
